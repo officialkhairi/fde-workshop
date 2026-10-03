@@ -17,6 +17,7 @@ help:
 	@echo "  make run      chat with your agent by hand"
 	@echo "  make eval     run the customer's 20 tickets"
 	@echo "  make eval2    round 2: yesterday's tickets (once you're at 20/20)"
+	@echo "  make eval3    round 3: edge cases (angry, ownership, PII, format)"
 	@echo "  make guided   swap in a working tool if you are stuck"
 	@echo "  make mine     put your own tool back"
 	@echo ""
@@ -55,6 +56,9 @@ eval: _check_venv _check_env _check_api
 eval2: _check_venv _check_env _check_api
 	@set -a && source .env && set +a && $(PY) evals/run.py evals/tickets2.json
 
+eval3: _check_venv _check_env _check_api
+	@set -a && source .env && set +a && $(PY) evals/run.py evals/tickets3.json
+
 guided:
 	@test -f agent/tools.py.mine || cp agent/tools.py agent/tools.py.mine
 	@cp .guided/tools.py agent/tools.py
@@ -76,4 +80,4 @@ _check_api:
 		|| { echo ""; echo "  The customer's Orders API is not running."; \
 		     echo "  Open another terminal and run:  make api"; echo ""; exit 1; }
 
-.PHONY: help setup login api run eval eval2 guided mine _check_venv _check_env _check_api
+.PHONY: help setup login api run eval eval2 eval3 guided mine _check_venv _check_env _check_api

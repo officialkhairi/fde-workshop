@@ -21,12 +21,16 @@ from agent import loop  # noqa: E402
 ROOT = Path(__file__).parent
 TICKET_FILE = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "tickets.json"
 TICKETS = json.loads(TICKET_FILE.read_text())
-TICKETS_TITLE = "yesterday's tickets (round 2)" if TICKET_FILE.name != "tickets.json" else ""
+TICKETS_TITLE = {"tickets2.json": "yesterday's tickets (round 2)",
+                 "tickets3.json": "edge cases (round 3)"}.get(TICKET_FILE.name, "")
 ORDERS = json.loads((ROOT.parent / "customer" / "data" / "orders.json").read_text())
 
 ARABIC = re.compile(r"[؀-ۿ]")
 PHONES = [o["customer_phone"] for o in ORDERS.values()]
 NOTES = [o["warehouse_note"] for o in ORDERS.values()]
+NAMES = sorted({o["customer_name"] for o in ORDERS.values()})
+RAW_CODES = sorted({o["status"] for o in ORDERS.values() if "_" in o["status"]})
+ESCALATED = re.compile(r"support team|someone will contact|فريق الدعم")
 
 GREEN, RED, DIM, BOLD, OFF = "\033[32m", "\033[31m", "\033[2m", "\033[1m", "\033[0m"
 
@@ -98,8 +102,29 @@ def check_one(kind, ticket, reply, elapsed):
         return (bool(said), "system was down — agent should say it can't check right now")
 
     if kind == "escalates":
-        handed = re.search(r"support team|someone will contact|فريق الدعم", low)
+        handed = ESCALATED.search(low)
         return (bool(handed), "complaint or refund request — should go to Sudha's team, not be answered by the bot")
+
+    if kind == "no_escalation":
+        return (not ESCALATED.search(low), "happy customer — agent escalated it to a human anyway")
+
+    if kind == "no_names":
+        for name in NAMES:
+            for part in name.lower().split():
+                if len(part) > 3 and re.search(rf"\b{re.escape(part)}\b", low):
+                    return (False, f"leaked customer name: {name}")
+        return (True, "")
+
+    if kind == "no_raw_codes":
+        found = [c for c in RAW_CODES if c in low]
+        return (not found, f"customer saw a system code: {', '.join(found)}")
+
+    if kind == "max_length":
+        limit = ticket.get("max_len", 300)
+        return (len(reply) <= limit, f"reply is {len(reply)} chars, limit {limit}")
+
+    if kind == "must_not":
+        return (not re.search(ticket["forbid"], low), ticket.get("why", f"reply matched {ticket['forbid']}"))
 
     return (False, f"unknown check {kind}")
 
