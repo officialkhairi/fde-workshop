@@ -1,7 +1,7 @@
 """
 Your tool. This is the only code file you need to change.
 
-Four TODOs. Each one maps to something that will bite you later if you skip it.
+Four decisions, each commented where it is made.
 """
 import os
 import re
@@ -11,43 +11,65 @@ import requests
 ORDERS_API = os.environ.get("ORDERS_API", "http://127.0.0.1:8081")
 ORDERS_KEY = os.environ.get("ORDERS_KEY", "")
 
+# The API fronts a slow SQL Server that can hang for seconds. Customers will not wait.
+TIMEOUT = 3
+
+# The customer sees these fields and nothing else. Allow-list, not deny-list:
+# any new field the API grows (notes, phone numbers, names) stays private by default.
+SAFE_FIELDS = ("status", "eta", "destination")
+
+# Arabic-Indic (٠-٩) and Extended Arabic-Indic (۰-۹) digits -> ASCII.
+_DIGITS = str.maketrans("٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹", "01234567890123456789")
+
 
 def find_order_id(message: str):
     """Pull an order reference out of a customer message. Returns None if absent."""
-    m = re.search(r"JJ-?\s?(\d{4})", message, re.I)
+    text = message.translate(_DIGITS)
+    m = re.search(r"JJ-?\s?(\d{4})", text, re.I)
+    if not m:
+        # Customers often drop the prefix: "where's order 4474?". Accept a lone
+        # four-digit number, but not one embedded in a phone number or longer run.
+        m = re.search(r"(?<![\d-])(\d{4})(?![\d-])", text)
     return f"JJ-{m.group(1)}" if m else None
 
 
+def _get(path: str, **params):
+    try:
+        return requests.get(f"{ORDERS_API}{path}", params=params or None,
+                            headers={"x-api-key": ORDERS_KEY}, timeout=TIMEOUT)
+    except requests.RequestException as exc:
+        # Raised, not swallowed. The loop turns this into an honest "try again"
+        # instead of letting the model invent a status.
+        raise RuntimeError("orders api unavailable") from exc
+
+
+def _safe(order: dict) -> dict:
+    return {k: order[k] for k in SAFE_FIELDS if k in order}
+
+
 def get_shipment_status(order_id: str) -> dict:
-    """
-    Look up one order in the customer's Orders API.
-
-    TODO 1 — Call it.
-        GET {ORDERS_API}/orders/{order_id}
-        Header: x-api-key: {ORDERS_KEY}
-        The URL and key are in your .env (make login).
-
-    TODO 2 — Handle failure.
-        This API fronts a fifteen-year-old SQL Server. It is slow, it is sometimes
-        down, and it is about to get worse. Decide what a timeout means, and what
-        your caller should see when the order genuinely does not exist.
-
-    TODO 3 — Decide what to return.
-        Look at the full response before you pass it on. The agent will repeat back
-        whatever you hand it. Every field. To the customer.
-    """
-    resp = requests.get(f"{ORDERS_API}/orders/{order_id}",
-                        headers={"x-api-key": ORDERS_KEY})
-    return resp.json()
+    """Look up one order in the customer's Orders API."""
+    resp = _get(f"/orders/{order_id}")
+    # A missing order is an answer, not an outage.
+    if resp.status_code == 404:
+        return {"error": "order not found"}
+    resp.raise_for_status()
+    return _safe(resp.json())
 
 
 def find_order_by_phone(phone: str):
     """
-    Some customers write in on WhatsApp. Their message has no order number, but
-    you have the number they wrote from.
-
-    TODO 4 — Find their order without an order number.
-        How do Jaldi Jaldi's support agents do this today? Ask them.
-        Return the order (same rules as TODO 3), or None if you can't.
+    WhatsApp customers have no order number, but we have the number they wrote
+    from. Support finds them through GET /orders?phone=..., which the API docs
+    never mention. Returns the order(s) with the same allow-list, or None.
     """
-    return None
+    resp = _get("/orders", phone=phone)
+    resp.raise_for_status()
+    orders = resp.json().get("orders", [])
+    if not orders:
+        return None
+    if len(orders) == 1:
+        return _safe(orders[0])
+    # One phone, several orders: the customer hears about all of them.
+    return {o["order_id"]: ", ".join(f"{k} {v}" for k, v in _safe(o).items())
+            for o in orders}

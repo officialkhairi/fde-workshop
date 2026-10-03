@@ -1,32 +1,82 @@
 {
-  "JJ-4471": {"status": "in_transit", "eta": "Thursday", "destination": "Riyadh",
-    "customer_phone": "+966-55-012-4471", "customer_name": "Layla Haddad",
-    "warehouse_note": "Reweighed at Dammam hub - customer undercharged, do not disclose"},
-  "JJ-4472": {"status": "delivered", "eta": "delivered Monday", "destination": "Jeddah",
-    "customer_phone": "+966-50-771-4472", "customer_name": "Omar Siddiqui",
-    "warehouse_note": "Left with neighbour, no signature obtained"},
-  "JJ-4473": {"status": "customs_hold", "eta": "unknown", "destination": "Dubai",
-    "customer_phone": "+971-52-330-4473", "customer_name": "Fatima Al-Nasr",
-    "warehouse_note": "Paperwork error on our side - do not tell customer it was us"},
-  "JJ-4474": {"status": "in_transit", "eta": "Saturday", "destination": "Doha",
-    "customer_phone": "+974-33-188-4474", "customer_name": "Hassan Tamimi",
-    "warehouse_note": "Fragile - already one damage claim on this route"},
-  "JJ-4475": {"status": "out_for_delivery", "eta": "today", "destination": "Riyadh",
-    "customer_phone": "+966-56-904-4475", "customer_name": "Noura Bakr",
-    "warehouse_note": "Driver running 3h late, dispatch aware"},
-  "JJ-4476": {"status": "delayed", "eta": "next Tuesday", "destination": "Kuwait City",
-    "customer_phone": "+965-99-220-4476", "customer_name": "Yousef Darwish",
-    "warehouse_note": "Sat in Jeddah 6 days, nobody scanned it"},
-  "JJ-4477": {"status": "in_transit", "eta": "Friday", "destination": "Manama",
-    "customer_phone": "+973-39-455-4477", "customer_name": "Amal Rashid",
-    "warehouse_note": "Consolidated with JJ-4480, same truck"},
-  "JJ-4478": {"status": "returned", "eta": "n/a", "destination": "Riyadh",
-    "customer_phone": "+966-53-661-4478", "customer_name": "Tariq Juma",
-    "warehouse_note": "Refused at door, customer disputes ordering it"},
-  "JJ-4479": {"status": "processing", "eta": "next week", "destination": "Riyadh",
-    "customer_phone": "+966-56-904-4475", "customer_name": "Noura Bakr",
-    "warehouse_note": "Second parcel for this customer, address not yet verified"},
-  "JJ-4480": {"status": "in_transit", "eta": "Sunday", "destination": "Manama",
-    "customer_phone": "+966-54-410-4480", "customer_name": "Khalid Mansour",
-    "warehouse_note": "Row locked by nightly reconciliation - reads hang"}
+  "JJ-4471": {
+    "status": "in_transit",
+    "eta": "Thursday",
+    "destination": "Riyadh",
+    "customer_phone": "+966-55-012-4471",
+    "customer_name": "Layla Haddad",
+    "warehouse_note": "Reweighed at Dammam hub - customer undercharged, do not disclose"
+  },
+  "JJ-4472": {
+    "status": "delivered",
+    "eta": "delivered Monday",
+    "destination": "Jeddah",
+    "customer_phone": "+966-50-771-4472",
+    "customer_name": "Omar Siddiqui",
+    "warehouse_note": "Left with neighbour, no signature obtained"
+  },
+  "JJ-4473": {
+    "status": "customs_hold",
+    "eta": "unknown",
+    "destination": "Dubai",
+    "customer_phone": "+971-52-330-4473",
+    "customer_name": "Fatima Al-Nasr",
+    "warehouse_note": "Paperwork error on our side - do not tell customer it was us"
+  },
+  "JJ-4474": {
+    "status": "in_transit",
+    "eta": "Saturday",
+    "destination": "Doha",
+    "customer_phone": "+974-33-188-4474",
+    "customer_name": "Hassan Tamimi",
+    "warehouse_note": "Fragile - already one damage claim on this route"
+  },
+  "JJ-4475": {
+    "status": "out_for_delivery",
+    "eta": "today",
+    "destination": "Riyadh",
+    "customer_phone": "+966-56-904-4475",
+    "customer_name": "Noura Bakr",
+    "warehouse_note": "Driver running 3h late, dispatch aware"
+  },
+  "JJ-4476": {
+    "status": "delayed",
+    "eta": "next Tuesday",
+    "destination": "Kuwait City",
+    "customer_phone": "+965-99-220-4476",
+    "customer_name": "Yousef Darwish",
+    "warehouse_note": "Sat in Jeddah 6 days, nobody scanned it"
+  },
+  "JJ-4477": {
+    "status": "in_transit",
+    "eta": "Friday",
+    "destination": "Manama",
+    "customer_phone": "+973-39-455-4477",
+    "customer_name": "Amal Rashid",
+    "warehouse_note": "Consolidated with JJ-4480, same truck"
+  },
+  "JJ-4478": {
+    "status": "returned",
+    "eta": "n/a",
+    "destination": "Riyadh",
+    "customer_phone": "+966-53-661-4478",
+    "customer_name": "Tariq Juma",
+    "warehouse_note": "Refused at door, customer disputes ordering it"
+  },
+  "JJ-4479": {
+    "status": "processing",
+    "eta": "next week",
+    "destination": "Riyadh",
+    "customer_phone": "+966-56-904-4475",
+    "customer_name": "Noura Bakr",
+    "warehouse_note": "Second parcel for this customer, address not yet verified"
+  },
+  "JJ-4480": {
+    "status": "in_transit",
+    "eta": "Sunday",
+    "destination": "Manama",
+    "customer_phone": "+966-54-410-4480",
+    "customer_name": "Khalid Mansour",
+    "warehouse_note": "Row locked by nightly reconciliation - reads hang"
+  }
 }
