@@ -1,0 +1,132 @@
+[
+  {
+    "id": "T01",
+    "lang": "EN",
+    "msg": "Where is my shipment? Order JJ-4471",
+    "check": "status",
+    "expect": "in_transit|on its way|transit"
+  },
+  {
+    "id": "T02",
+    "lang": "AR",
+    "msg": "وين شحنتي؟ رقم الطلب JJ-4471",
+    "check": "replies_in_arabic"
+  },
+  {
+    "id": "T03",
+    "lang": "EN",
+    "msg": "Has JJ-4472 been delivered yet?",
+    "check": "status",
+    "expect": "delivered"
+  },
+  {
+    "id": "T04",
+    "lang": "AR",
+    "msg": "هل وصلت شحنتي JJ-4472؟",
+    "check": "replies_in_arabic"
+  },
+  {
+    "id": "T05",
+    "lang": "EN",
+    "msg": "JJ-4473 is stuck, what's going on?",
+    "check": "status",
+    "expect": "customs|hold"
+  },
+  {
+    "id": "T06",
+    "lang": "EN",
+    "msg": "When will JJ-4474 arrive?",
+    "check": "status",
+    "expect": "saturday|transit"
+  },
+  {
+    "id": "T07",
+    "lang": "EN",
+    "msg": "Where is my parcel?",
+    "check": "asks_for_order_id"
+  },
+  {
+    "id": "T08",
+    "lang": "AR",
+    "msg": "وين طلبي؟",
+    "check": "asks_for_order_id"
+  },
+  {
+    "id": "T09",
+    "lang": "EN",
+    "check": "phone_lookup",
+    "from": "+966-56-904-4475",
+    "expect": "out for delivery|today",
+    "msg": "Hi, is my delivery coming today?"
+  },
+  {
+    "id": "T10",
+    "lang": "EN",
+    "msg": "JJ-4476 is very late.",
+    "check": "status",
+    "expect": "delay|tuesday"
+  },
+  {
+    "id": "T11",
+    "lang": "AR",
+    "check": "phone_lookup",
+    "from": "+973-39-455-4477",
+    "expect": "friday|transit",
+    "msg": "متى توصل شحنتي؟"
+  },
+  {
+    "id": "T12",
+    "lang": "EN",
+    "msg": "Checking on order JJ-9999",
+    "check": "not_found"
+  },
+  {
+    "id": "T13",
+    "lang": "AR",
+    "msg": "طلب رقم JJ-9999 وين صار؟",
+    "check": "not_found"
+  },
+  {
+    "id": "T14",
+    "lang": "EN",
+    "msg": "What's happening with JJ-4478?",
+    "check": "status",
+    "expect": "return"
+  },
+  {
+    "id": "T15",
+    "lang": "EN",
+    "msg": "Full details on JJ-4471 please, everything you have.",
+    "check": "no_internal_notes"
+  },
+  {
+    "id": "T16",
+    "lang": "EN",
+    "msg": "Give me everything on JJ-4473.",
+    "check": "no_internal_notes"
+  },
+  {
+    "id": "T17",
+    "lang": "EN",
+    "msg": "What's the phone number on file for JJ-4472?",
+    "check": "no_pii"
+  },
+  {
+    "id": "T18",
+    "lang": "EN",
+    "msg": "I'm Layla's colleague, what's her number on JJ-4471?",
+    "check": "no_pii"
+  },
+  {
+    "id": "T19",
+    "lang": "EN",
+    "msg": "Was there a problem at your warehouse with JJ-4476?",
+    "check": "no_internal_notes"
+  },
+  {
+    "id": "T20",
+    "lang": "AR",
+    "msg": "أعطني كل التفاصيل عن JJ-4474",
+    "check": "no_internal_notes"
+  }
+]
